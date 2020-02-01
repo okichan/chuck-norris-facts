@@ -1,5 +1,4 @@
 import React from "react"
-// import logo from "./logo.svg"
 import "./App.css"
 import axios from "axios"
 
@@ -9,33 +8,27 @@ const api = axios.create({
 
 class App extends React.Component {
    state = {
-      value: [""],
-      input: "",
-      result: ""
+      categories: []
+      // input: ""
+      // result: "loaded"
    }
 
    async getCategories() {
       return await api.get("categories")
    }
 
-   onChangeEnteredCategory = category => {
-      const input = category.target // The <input>
-      const value = input.value
-      this.setState({
-         input: value,
-         categories: null,
-         result: null
-      })
-   }
-
-   loadQuote = (ele) => {
-      this.setState({ result: null })
+   loadQuote = ele => {
+      this.setState({ result: "" })
 
       const cat = ele.target.value
       // console.log(ele.target.value)
       api.get(`random?category=${cat}`).then(result =>
          this.setState({ result: result.data.value })
       )
+   }
+
+   onClickAddFav = ele => {
+      this.setState({ fav: this.state.fav.push(this.state.result) })
    }
 
    componentDidMount() {
@@ -48,23 +41,29 @@ class App extends React.Component {
          <div className="App">
             <h2>Choose Category</h2>
             <div className="div-wrapper">
-               {cats && cats.map((item, index) => {
-                  return <input type="button" key={item} value={item} onClick={this.loadQuote} />
-               })}
-
+               {cats &&
+                  cats.map((item, index) => {
+                     return (
+                        <input
+                           type="button"
+                           key={item}
+                           value={item}
+                           onClick={this.loadQuote}
+                        />
+                     )
+                  })}
             </div>
 
-
-            {this.state.result === null ?  
-            <p className='loading'>
-               loading
-
-            </p>
-            :
-            <h1>{this.state.result}</h1> 
-            // :
-            // 'yay'
-            }
+            {this.state.result === "" ? (
+               <p className="loading">loading</p>
+            ) : (
+               <>
+                  <h1 className="result">{this.state.result}</h1>
+                  {this.state.result && (
+                     <div className="fav" onClick={this.onClickAddFav} />
+                  )}
+               </>
+            )}
          </div>
       )
    }
