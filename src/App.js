@@ -8,9 +8,8 @@ const api = axios.create({
 
 class App extends React.Component {
    state = {
-      categories: []
-      // input: ""
-      // result: "loaded"
+      categories: [],
+      fav: []
    }
 
    async getCategories() {
@@ -28,7 +27,9 @@ class App extends React.Component {
    }
 
    onClickAddFav = ele => {
-      this.setState({ fav: this.state.fav.push(this.state.result) })
+      let favArr = this.state.fav
+      favArr.push(this.state.result)
+      this.setState({ fav: favArr })
    }
 
    componentDidMount() {
