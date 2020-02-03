@@ -3,9 +3,21 @@
    text-align: center;
 }
 
-.App-logo {
-   height: 40vmin;
-   pointer-events: none;
+header {
+   padding: 1rem;
+   display: flex;
+   justify-content: flex-end;
+   align-items: center;
+
+   h2 {
+      flex-grow: 1;
+   }
+
+   svg {
+      fill: crimson;
+      width: 2rem;
+      height: 2rem;
+   }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -83,16 +95,27 @@ input[type="button"]:hover {
    }
 }
 
-.fav {
-   content: '';
-   display: block;
-   background: url(./heart_blank.svg);
-   margin: auto;
-   width: 2rem;
-   height: 2rem;
-   cursor: pointer;
-}
+.result-fav {
+   svg {
+      width: 2rem;
+      height: 2rem;
+      fill: rgba(230, 65, 68, 0);
+      transition: transform .3s, fill .3s;
 
-.fav:hover {
-   background: url(./heart_filled.svg);
+      &:hover {
+         fill: rgba(230, 65, 68, 1);
+         transform: scale(1.5);
+      }
+
+      // path {
+      //    fill: rgba(225, 100, 100, 0);
+      //    transition: fill .3s;
+
+         
+      // }
+
+      // &:hover path {
+      //    fill: rgba(225, 100, 100, 1);
+      // }
+   }
 }
