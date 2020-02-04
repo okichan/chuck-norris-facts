@@ -3,6 +3,10 @@
    text-align: center;
 }
 
+*:focus {
+   outline: none;
+}
+
 header {
    padding: 1rem;
    display: flex;
@@ -13,10 +17,31 @@ header {
       flex-grow: 1;
    }
 
-   svg {
-      fill: crimson;
+   img {
       width: 2rem;
       height: 2rem;
+      cursor: pointer;
+   }
+}
+
+.favs-list {
+   position: fixed;
+   background: rgba($color: #676767, $alpha: 0.9);
+   left: 15%;
+   right: 15%;
+   bottom: 15%;
+   top: 15%;
+   padding: 2rem;
+   // display: none;
+
+   // &.show {
+   //    display: unset;
+   // }
+
+   ul {
+      margin: 0 auto;
+      width: 80%;
+      background: rgba($color: #fff, $alpha: 0.9);
    }
 }
 
@@ -95,27 +120,32 @@ input[type="button"]:hover {
    }
 }
 
-.result-fav {
-   svg {
-      width: 2rem;
-      height: 2rem;
-      fill: rgba(230, 65, 68, 0);
-      transition: transform .3s, fill .3s;
 
-      &:hover {
-         fill: rgba(230, 65, 68, 1);
-         transform: scale(1.5);
-      }
+.fav-button {
+   width: 2rem;
+   height: 2rem;
+   background: url('./heart_blank.svg');
+   border: none;
+   transition: transform .3s;
+   cursor: pointer;
+   
+   &.saved {
+      background: url('./heart_filled.svg');
+      animation: heartbeat .6s 1;
+   }  
+   
+   
+}
 
-      // path {
-      //    fill: rgba(225, 100, 100, 0);
-      //    transition: fill .3s;
 
-         
-      // }
-
-      // &:hover path {
-      //    fill: rgba(225, 100, 100, 1);
-      // }
+@keyframes heartbeat {
+   0% {
+      transform: scale(1);
+   }
+   50% {
+      transform: scale(1.3);
+   }
+   100% {
+      transform: scale(1);
    }
 }
