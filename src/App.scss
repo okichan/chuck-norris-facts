@@ -25,23 +25,37 @@ header {
 }
 
 .favs-list {
+   text-align: left;
    position: fixed;
-   background: rgba($color: #676767, $alpha: 0.9);
-   left: 15%;
-   right: 15%;
-   bottom: 15%;
-   top: 15%;
-   padding: 2rem;
-   // display: none;
-
-   // &.show {
-   //    display: unset;
-   // }
-
+   background: rgba($color: #676767, $alpha: 0.98);
+   left: 0;
+   right: 0;
+   bottom: 0;
+   top: 0;
+   display: flex;
+   flex-direction: column;
+   // padding-top: 4rem;
+   &:before {
+      content: '☒';
+      font-size: 3rem;
+      align-self: right;
+      cursor: pointer;
+      align-self: flex-end;
+      padding: 1rem;
+   }
+   
    ul {
-      margin: 0 auto;
+      align-self: center;
+      // margin: 0 auto;
       width: 80%;
+      min-width: 320px;
       background: rgba($color: #fff, $alpha: 0.9);
+
+      li {
+
+         padding: .5rem;
+      }
+      
    }
 }
 

@@ -49,12 +49,11 @@ class App extends React.Component {
       api.get(`random?category=${cat}`).then(result => {
          this.setState({ result: result.data.value })
          if (favArr.includes(this.state.result)) {
-            this.myRef.current.classList.add('saved')
+            this.myRef.current.classList.add("saved")
          } else {
-            this.myRef.current.classList.remove('saved')
+            this.myRef.current.classList.remove("saved")
          }
       })
-      
    }
 
    toggleAddToFav = ele => {
@@ -71,12 +70,17 @@ class App extends React.Component {
       this.setState({ fav: favArr })
    }
 
-   onClickShowFavs = () => {
-      // this.state.fa
+   onClickShowFavs = event => {
       let favShowing = this.state.favShowing
 
       this.setState({ favShowing: !favShowing })
       // this.myRef.current.classList.toggle("show")
+   }
+   
+   onClickCloseFavs = e => {
+      let favShowing = this.state.favShowing
+      this.setState({ favShowing: !favShowing })
+      e.stopPropagation()
    }
 
    componentDidMount() {
@@ -97,11 +101,14 @@ class App extends React.Component {
             </header>
 
             {this.state.favShowing && (
-               <section className="favs-list" ref={this.myRef}>
+               <section
+                  className="favs-list"
+                  ref={this.myRef}
+                  onClick={this.onClickCloseFavs}>
                   {this.state.fav.map((m, idx) => (
                      <ul>
                         {" "}
-                        <li key={idx}>{m}</li>
+                        <li key={idx} onClick={event => event.stopPropagation()}>{m}</li>
                      </ul>
                   ))}
                </section>
