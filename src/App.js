@@ -41,27 +41,41 @@ class App extends React.Component {
    }
 
    loadQuote = ele => {
+      let favArr = this.state.fav
       this.setState({ result: "" })
 
       const cat = ele.target.value
       // console.log(ele.target.value)
-      api.get(`random?category=${cat}`).then(result =>
+      api.get(`random?category=${cat}`).then(result => {
          this.setState({ result: result.data.value })
-      )
+         if (favArr.includes(this.state.result)) {
+            this.myRef.current.classList.add('saved')
+         } else {
+            this.myRef.current.classList.remove('saved')
+         }
+      })
+      
    }
 
-   onClickAddToFav = ele => {
+   toggleAddToFav = ele => {
       let favArr = this.state.fav
-      favArr.push(this.state.result)
+
+      if (favArr.includes(this.state.result)) {
+         favArr = favArr.filter(e => e !== this.state.result)
+         ele.target.classList.remove("saved")
+      } else {
+         favArr.push(this.state.result)
+         ele.target.classList.add("saved")
+      }
+
       this.setState({ fav: favArr })
-      ele.target.classList.toggle("saved")
    }
 
    onClickShowFavs = () => {
       // this.state.fa
       let favShowing = this.state.favShowing
-      
-      this.setState({favShowing: !favShowing})
+
+      this.setState({ favShowing: !favShowing })
       // this.myRef.current.classList.toggle("show")
    }
 
@@ -82,16 +96,16 @@ class App extends React.Component {
                </div>
             </header>
 
-{this.state.favShowing &&
-            <section className="favs-list" ref={this.myRef}>
-               {this.state.fav.map(m => (
-                  <ul>
-                     {" "}
-                     <li>{m}</li>
-                  </ul>
-               ))}
-            </section>
-}
+            {this.state.favShowing && (
+               <section className="favs-list" ref={this.myRef}>
+                  {this.state.fav.map((m, idx) => (
+                     <ul>
+                        {" "}
+                        <li key={idx}>{m}</li>
+                     </ul>
+                  ))}
+               </section>
+            )}
 
             <div className="div-wrapper">
                {cats &&
@@ -112,12 +126,10 @@ class App extends React.Component {
                <>
                   <h1 className="result">{this.state.result}</h1>
                   {this.state.result && (
-                     //  <div className="result-fav" onClick={this.onClickAddToFav}>
-                     //     {svg}
-                     //  </div>
                      <button
                         className="fav-button"
-                        onClick={this.onClickAddToFav}></button>
+                        onClick={this.toggleAddToFav}
+                        ref={this.myRef}></button>
                   )}
                </>
             )}
