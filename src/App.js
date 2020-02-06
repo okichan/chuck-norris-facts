@@ -1,5 +1,6 @@
 import React from "react"
 import "./App.scss"
+import randomise from "./components/ImageRandomiser"
 import heart from "./heart_filled.svg"
 import axios from "axios"
 
@@ -33,7 +34,8 @@ class App extends React.Component {
          "travel"
       ],
       fav: [],
-      favShowing: false
+      favShowing: false,
+      chuckPic: null
    }
 
    async getCategories() {
@@ -48,6 +50,8 @@ class App extends React.Component {
       // console.log(ele.target.value)
       api.get(`random?category=${cat}`).then(result => {
          this.setState({ result: result.data.value })
+         // randomise()
+         this.setState({ chuckPic: randomise() })
          if (favArr.includes(this.state.result)) {
             this.myRef.current.classList.add("saved")
          } else {
@@ -76,15 +80,11 @@ class App extends React.Component {
       this.setState({ favShowing: !favShowing })
       // this.myRef.current.classList.toggle("show")
    }
-   
+
    onClickCloseFavs = e => {
       let favShowing = this.state.favShowing
       this.setState({ favShowing: !favShowing })
       e.stopPropagation()
-   }
-
-   componentDidMount() {
-      // this.getCategories().then(res => this.setState({ categories: res.data }))
    }
 
    render() {
@@ -96,7 +96,7 @@ class App extends React.Component {
             <header>
                <h2>Choose Category</h2>
                <div className="header-fav" onClick={this.onClickShowFavs}>
-                  <img src={heart} />
+                  <img src={heart} alt="favourites" />
                </div>
             </header>
 
@@ -105,12 +105,13 @@ class App extends React.Component {
                   className="favs-list"
                   ref={this.myRef}
                   onClick={this.onClickCloseFavs}>
-                  {this.state.fav.map((m, idx) => (
-                     <ul>
-                        {" "}
-                        <li key={idx} onClick={event => event.stopPropagation()}>{m}</li>
-                     </ul>
-                  ))}
+                  <ul>
+                     {this.state.fav.map((m, idx) => (
+                        <li key={idx} onClick={event => event.stopPropagation()}>
+                           {m}
+                        </li>
+                     ))}
+                  </ul>
                </section>
             )}
 
@@ -131,12 +132,19 @@ class App extends React.Component {
                <p className="loading">loading</p>
             ) : (
                <>
-                  <h1 className="result">{this.state.result}</h1>
                   {this.state.result && (
-                     <button
-                        className="fav-button"
-                        onClick={this.toggleAddToFav}
-                        ref={this.myRef}></button>
+                     <>
+                        <article className="result">
+                           <img src={this.state.chuckPic} alt="chuck norris" />
+                           <p>{this.state.result}</p>
+                        </article>
+
+                        <button
+                           className="fav-button"
+                           onClick={this.toggleAddToFav}
+                           ref={this.myRef}
+                           title="favourite"></button>
+                     </>
                   )}
                </>
             )}
